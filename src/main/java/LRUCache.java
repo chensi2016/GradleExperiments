@@ -42,10 +42,7 @@ public class LRUCache {
             return -1;
         }
         else{
-            Node foundNodePrevious = foundNode.previous;
-            Node foundNodeNext = foundNode.next;
-            foundNodePrevious.next = foundNodeNext;
-            foundNodeNext.previous = foundNodePrevious;
+            foundNode.delete();
             insertNodeToTheEnd(foundNode);
 
             return foundNode.value;

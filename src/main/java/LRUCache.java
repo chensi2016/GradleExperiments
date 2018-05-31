@@ -1,23 +1,26 @@
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-class Node{
+class Node {
     int key;
     int value;
     Node previous;
     Node next;
 
-    Node(int key, int value){
+    Node(int key, int value) {
         this.key = key;
         this.value = value;
         this.previous = this;
         this.next = this;
     }
-    void delete(){
-        Node NodePrevious = this.previous;
-        Node NodeNext = this.next;
-        NodePrevious.next = NodeNext;
-        NodeNext.previous = NodePrevious;
+
+    void delete() {
+        Node nodePrevious = this.previous;
+        Node nodeNext = this.next;
+        nodePrevious.next = nodeNext;
+        nodeNext.previous = nodePrevious;
 
         this.previous = null;
         this.next = null;
@@ -25,14 +28,14 @@ class Node{
 }
 
 public class LRUCache {
-    Private Map<Integer, Node> map = new HashMap<>();
-    Private ode head = new Node(0,0);
+    private static final Logger log = LogManager.getLogger(LRUCache.class);
+    private Map<Integer, Node> map = new HashMap<>();
+    private Node head = new Node(0, 0);
     private int capacity;
     private int size;
 
-    LRUCache(int capacity) {
+    public LRUCache(int capacity) {
         this.capacity = capacity;
-
     }
 
     public int get(int key) {
@@ -63,24 +66,23 @@ public class LRUCache {
     public void put(int key, int value) {
         //check whether the node is present
         Node foundNode = map.get(key);
-        if (foundNode != null){
+        if (foundNode != null) {
             foundNode.value = value;
             moveNodeToEnd(foundNode);
-        }
-        else{
+        } else{
             //insert the new node
             Node newNode = new Node(key, value);
             map.put(key, newNode);
             insertNodeToTheEnd(newNode);
             size++;
 
-            if (size>capacity){
+            if (size > capacity) {
                 Node toDeleteNode = head.next;
                 map.remove(toDeleteNode.key);
                 toDeleteNode.delete();
                 size--;
-
             }
+            log.info("current size is {}, capacity is {}", size, capacity);
 
         }
 

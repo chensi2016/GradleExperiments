@@ -8,14 +8,22 @@ class StringNode {
         this.next = this;
         this.previous = this;
     }
+    StringNode(){
 
+    }
 
 }
 public class LongestPalindrome {
-    StringNode head = new StringNode('a');
-    StringNode string;
-    String result;
+    StringNode head = new StringNode('x');
+    int stringNodeLength = 1000;
+    StringNode[] string = new StringNode[stringNodeLength];
+    String result = "";
+    int size; //the current longest palindrome's size
     public String longestPalindrome(String s) {
+        for (int i=0; i<stringNodeLength; i++) {
+            string[i] = new StringNode();
+        }
+
         for (int i = 0; i < s.length(); i++){
             string[i].aChar= s.charAt(i);
             if (i == 0){
@@ -31,20 +39,31 @@ public class LongestPalindrome {
 
         //seek for an odd numbered palindrome
         StringNode pointer = head.next;
-        StringNode leftPointer = pointer;
-        StringNode rightPointer = pointer;
+        StringNode leftPointer;
+        StringNode rightPointer;
         while (pointer != head ) {
-            result = SeekForPalindrome(leftPointer, rightPointer, 1);
+            leftPointer = pointer;
+            rightPointer = pointer;
+            size=1;
+            if (size > result.length()){
+                result = BuildResultString(leftPointer, rightPointer);
+            }
+            result = SeekForPalindrome(leftPointer, rightPointer, size);
             pointer = pointer.next;
         }
 
         //seek for an even numbered palindrome
         pointer = head.next;
+        size=0;
         while (pointer.next != head ){
             if (pointer.aChar == pointer.next.aChar){
                 leftPointer = pointer;
                 rightPointer = pointer.next;
-                result = SeekForPalindrome(leftPointer, rightPointer, 0);
+                size = 2;
+                if (size > result.length()){
+                    result = BuildResultString(leftPointer, rightPointer);
+                }
+                result = SeekForPalindrome(leftPointer, rightPointer, size);
             }
             pointer = pointer.next;
 
@@ -52,26 +71,28 @@ public class LongestPalindrome {
         return result;
     }
     private String BuildResultString(StringNode left, StringNode right){
-        String result = null;
+        String result = "";
         StringNode node = left;
         while (node != right.next){
             result += node.aChar;
+            node = node.next;
         }
         return result;
     }
 
     //seek for palindrome
     private String SeekForPalindrome(StringNode leftPointer, StringNode rightPointer, int size){
-            while (leftPointer.previous != head && leftPointer.next != head ){
+            while (leftPointer.previous != head && rightPointer.next != head ){
                 if (leftPointer.previous.aChar == rightPointer.next.aChar){
+                    size += 2;
                     leftPointer = leftPointer.previous;
                     rightPointer = rightPointer.next;
-                    size = size +2;
-                    continue;
-                } else{
                     if (size > result.length()){
                         result = BuildResultString(leftPointer, rightPointer);
                     }
+
+                } else{
+
                     break;
                 }
 
@@ -81,7 +102,7 @@ public class LongestPalindrome {
     }
     public static void main(String[] args){
         LongestPalindrome longestPalindrome = new LongestPalindrome();
-        String s = "babad";
+        String s = "ccc";
         System.out.println(longestPalindrome.longestPalindrome(s));
 
 

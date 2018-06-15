@@ -1,5 +1,4 @@
-public class LongestPalindromeFast {
-
+public class LongestPalindromeDP {
     StringNode head = new StringNode('x');
     int stringNodeLength = 1000;
     StringNode[] string = new StringNode[stringNodeLength];
@@ -37,20 +36,15 @@ public class LongestPalindromeFast {
             int i = s.length();
             while (i > size)
             {
-                rightpointer = rightpointer.previous;
+                rightpointer = rightpointer.next;
                 i--;
             }
             while (rightpointer != head ){
                 result = BuildResultString(leftpointer, rightpointer);
                 left = leftpointer;
                 right = rightpointer;
-                while (left.aChar == right.aChar) {
-                    if (left.next == right | left == right) {
-                        return result;
-                    }
-                    left = left.next;
-                    right = right.previous;
-
+                if (palindrome(left, right)){
+                    return result;
                 }
                 leftpointer = leftpointer.next;
                 rightpointer = rightpointer.next;
@@ -71,4 +65,18 @@ public class LongestPalindromeFast {
         return result;
     }
 
+    boolean palindrome(StringNode left, StringNode right){
+        if(left==right |left.next == right.previous | left.next==right){
+            if( left.aChar == right.aChar)
+                return true;
+            else
+                return false;
+
+        }
+        if ( palindrome(left.next, right.previous)  && left.aChar == right.aChar){
+            return true;
+        }
+        else
+            return false;
     }
+}

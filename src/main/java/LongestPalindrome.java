@@ -23,7 +23,6 @@ public class LongestPalindrome {
         for (int i=0; i<stringNodeLength; i++) {
             string[i] = new StringNode();
         }
-
         for (int i = 0; i < s.length(); i++){
             string[i].aChar= s.charAt(i);
             if (i == 0){

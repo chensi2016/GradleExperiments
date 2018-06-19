@@ -4,11 +4,11 @@ import static org.junit.Assert.*;
 
 public class LongestPalindromeTest {
     LongestPalindromeDP longestPalindrome = new LongestPalindromeDP();
-    String s = "ccc";
+    String s = "abb";
 
     @Test
     public void longestPalindrome() {
-        assertEquals("ccc", longestPalindrome.longestPalindrome(s));
+        assertEquals("bb", longestPalindrome.longestPalindrome(s));
         return;
 
     }

@@ -1,6 +1,6 @@
 public class LongestPalindromeDP {
     int stringLength = 1000;
-    boolean[][] palindrome = new boolean[stringLength][stringLength]; //An array to record whether each substring is palindrome
+    int[][] palindrome = new int[stringLength][stringLength]; //An array to record whether each substring is palindrome
     String result = "";
     int size; //the current longest palindrome's size
     char[] charArray;
@@ -30,27 +30,34 @@ public class LongestPalindromeDP {
     }
 
     boolean palindrome(int left, int right){
-        if(palindrome[left][right] == true) {
+        if(palindrome[left][right] == 1) {
             return true;
+        }
+        if(palindrome[left][right] == -1){
+            return false;
         }
         if(left==right | (left+1 ) == (right-1) | (left+1) == right ){
             if( charArray[left] == charArray[right]) {
-                palindrome[left][right] = true;
+                palindrome[left][right] = 1;
                 return true;
             }
-            else
+            else {
+                palindrome[left][right] = -1;
                 return false;
+            }
 
         }
-        boolean equql = charArray[left] == charArray[right];
+        boolean equal = charArray[left] == charArray[right];
         left++;
         right--;
 
-        if ( palindrome(left, right)  && equql){
-            palindrome[left][right] = true;
+        if ( palindrome(left, right)  && equal){
+            palindrome[left][right] = 1;
             return true;
         }
-        else
+        else {
+            palindrome[left][right] = -1;
             return false;
+        }
     }
 }

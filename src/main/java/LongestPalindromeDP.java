@@ -2,30 +2,31 @@ public class LongestPalindromeDP {
     int stringLength = 1000;
     int[][] palindrome = new int[stringLength][stringLength]; //An array to record whether each substring is palindrome
     String result = "";
-    int size; //the current longest palindrome's size
+    int size; //the current substring's size
     char[] charArray;
     public String longestPalindrome(String s) {
         charArray = s.toCharArray();
 
         //find the palindrome
-        int leftpointer;
-        int rightpointer;
+        int leftPointer;
+        int rightPointer;
         size = 1;
         while ( size <= s.length()) {
-            //for each size, the search is from the left, first find the rightpointer which is 'size' far from the leftpointer
-            leftpointer = 0;
-            rightpointer = leftpointer + size -1;
-            while (rightpointer < s.length() ){
-                if (palindrome(leftpointer, rightpointer)){
+            //for each size, the search is from the left, first find the rightPointer which is 'size-1' far from the leftPointer
+            leftPointer = 0;
+            rightPointer = leftPointer + size -1;
+            while (rightPointer < s.length() ){
+                if (palindrome(leftPointer, rightPointer)){
                     if(result.length()<size)
-                    result = s.substring(leftpointer, rightpointer+1);
+                    result = s.substring(leftPointer, rightPointer+1);
                 }
-                leftpointer++;
-                rightpointer++;
+                leftPointer++;
+                rightPointer++;
             }
             size++;
         }
         return result;
+
 
     }
 

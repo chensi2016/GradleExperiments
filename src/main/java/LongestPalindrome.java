@@ -49,6 +49,8 @@ public class LongestPalindrome {
             }
             result = SeekForPalindrome(leftPointer, rightPointer, size);
             pointer = pointer.next;
+            if(result.length()==s.length())
+                return result;
         }
 
         //seek for an even numbered palindrome
@@ -65,7 +67,8 @@ public class LongestPalindrome {
                 result = SeekForPalindrome(leftPointer, rightPointer, size);
             }
             pointer = pointer.next;
-
+            if(result.length()==s.length())
+                return result;
         }
         return result;
     }
@@ -97,13 +100,6 @@ public class LongestPalindrome {
 
             }
         return result;
-
-    }
-    public static void main(String[] args){
-        LongestPalindrome longestPalindrome = new LongestPalindrome();
-        String s = "ccc";
-        System.out.println(longestPalindrome.longestPalindrome(s));
-
 
     }
 }

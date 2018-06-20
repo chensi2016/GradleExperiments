@@ -3,7 +3,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class LongestPalindromeTest {
-    LongestPalindromeDP longestPalindrome = new LongestPalindromeDP();
+    LongestPalindromeRewrite longestPalindrome = new LongestPalindromeRewrite();
     String s = "abb";
 
     @Test

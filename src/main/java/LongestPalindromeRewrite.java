@@ -1,5 +1,5 @@
 public class LongestPalindromeRewrite {
-    String result = "";
+    private String result = "";
     public String longestPalindrome(String s){
         for(int i = 0; i < s.length(); i++){
             result = seekForPalindrome(s, i, i);
@@ -9,12 +9,8 @@ public class LongestPalindromeRewrite {
         }
 
         return result;
-
-
-
-
     }
-    String seekForPalindrome(String s, int left, int right){
+    private String seekForPalindrome(String s, int left, int right){
         int size;
         while (left>=0 && right< s.length() && s.charAt(left)==s.charAt(right)){
             size = right-left+1;

@@ -3,13 +3,13 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class RegularExpressMatchingTest {
-    RegularExpressMatchingDP regularExpressMatching = new RegularExpressMatchingDP();
-    String s = "aa";
-    String p = "a";
+    RegularExpressMatchingDPRewrite regularExpressMatching = new RegularExpressMatchingDPRewrite();
+    String s = "aaa";
+    String p = "aaaa";
 
     @Test
     public void isMatch() {
-        assertFalse(regularExpressMatching.isMatch(s, p));
+        assertTrue(regularExpressMatching.isMatch(s, p));
         return;
     }
 }

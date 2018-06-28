@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 public class RegularExpressMatchingTest {
     RegularExpressMatchingDPRewrite regularExpressMatching = new RegularExpressMatchingDPRewrite();
-    String s = "aaa";
-    String p = "aaaa";
+    String s = "ab";
+    String p = ".*..";
 
     @Test
     public void isMatch() {

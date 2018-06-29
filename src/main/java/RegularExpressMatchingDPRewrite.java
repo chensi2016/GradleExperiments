@@ -20,7 +20,9 @@ public class RegularExpressMatchingDPRewrite {
             }
         }
 
-        return  match(s, p);
+
+        return match(s, p);
+
 
 
   }
@@ -78,7 +80,10 @@ public class RegularExpressMatchingDPRewrite {
                   }
               }
               else {
-                  return false;
+                  if (pointerForP >= lengthP && pointerForS < lengthS ) {
+                      return false;
+                  }
+
               }
           }
 
@@ -92,32 +97,42 @@ public class RegularExpressMatchingDPRewrite {
       if( match(s,p) ){
           return true;
       }
-      else{
+      else {
 
-        //  while( ){}
+          //  while( ){}
+
+          if (state[pointerForP - 1][pointerForS] == 1) {
+
 
           int pointerForCurrentP = pointerForP;
           int pointerForPreviousP = pointerForP;
           int pointerForCurrentS = pointerForS;
           int pointerForPreviousS = pointerForS;
 
-          while ( pointerForCurrentS -1  >= 0  && pointerForCurrentP - 2 >= 0  ){
 
-              if ( state[pointerForCurrentP-1][pointerForCurrentS] == 1 ) {
+          while (pointerForCurrentS - 1 >= 0 && pointerForCurrentP - 2 >= 0) {
+
+              if (state[pointerForCurrentP - 1][pointerForCurrentS] == 1) {
                   if ((s.charAt(pointerForCurrentS - 1) == p.charAt(pointerForCurrentP - 2)) || (p.charAt(pointerForCurrentP - 2) == '.')) {
                       pointerForS--;
                       pointerForCurrentS--;
                       if (match(s, p)) {
                           return true;
                       }
+
+
+                  }
+                  else{
+                      pointerForCurrentP = pointerForCurrentP - 2;
                   }
               }
 
               pointerForP = pointerForPreviousP;
-              pointerForCurrentP = pointerForPreviousP;
+             // pointerForCurrentP = pointerForPreviousP;
               pointerForS = pointerForCurrentS;
 
           }
+      }
       }
 
       return false;

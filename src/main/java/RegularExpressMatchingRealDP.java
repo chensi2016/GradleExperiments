@@ -67,15 +67,19 @@ public class RegularExpressMatchingRealDP {
                 compare = true;
 
                 if ( match(pointerForS, pointerForP - 2 ) && compare == true){
+                    state[pointerForS + 1][pointerForP + 1] = 1;
+                    state[pointerForS + 1][pointerForP] = 0;
                     return true;
                 }
                 pointerForS--;
             }
             pointerForP = pointerForP - 2;
             if ( match(pointerForS, pointerForP)) {
+                state[pointerForS + 1][pointerForP + 1] = 1;
                 return true;
             }
             else {
+                state[pointerForS + 1][pointerForP + 1] = 0;
                 return false;
             }
 
@@ -98,6 +102,7 @@ public class RegularExpressMatchingRealDP {
 
                             }
                             else {
+                                state[pointerForS + 1][pointerForP + 1] = 0;
                                 return false;
                             }
 
@@ -106,13 +111,7 @@ public class RegularExpressMatchingRealDP {
             }
         }
 
-        if( pointerForP == 0 && pointerForS == 0 ){
-            if( compare== true) {
-                return true;
-            }
-        }
-
-        if (pointerForP - 1 >= 0  && match(pointerForS - 1, pointerForP - 1) && compare) {
+        if (match(pointerForS - 1, pointerForP - 1) && compare) {
             state[pointerForS + 1][pointerForP + 1] = 1;
             return true;
         } else {

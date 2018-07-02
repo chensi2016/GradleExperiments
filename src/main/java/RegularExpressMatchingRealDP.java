@@ -102,20 +102,6 @@ public class RegularExpressMatchingRealDP {
                             }
 
                         }
-
-                       /* else {
-                            if (p.charAt(pointerForP) == '*' && p.charAt(pointerForP - 1) == s.charAt(pointerForS) ){
-                                compare = true;
-                                if (match(pointerForS, pointerForP - 2) && compare) {
-                                    state[pointerForS + 1][pointerForP + 1] = 1;
-                                    state[pointerForS + 1][pointerForP] = 1;
-                                    return true;
-                                }
-
-                            }
-
-                        }*/
-
                 }
             }
         }

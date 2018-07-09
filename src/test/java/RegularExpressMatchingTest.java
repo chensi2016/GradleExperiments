@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 public class RegularExpressMatchingTest {
     RegularExpressMatchingRealDP regularExpressMatching = new RegularExpressMatchingRealDP();
-    String s = "aaa";
-    String p = "a*b*a";
+    String s = "aa";
+    String p = "a*";
 
     @Test
     public void isMatch() {

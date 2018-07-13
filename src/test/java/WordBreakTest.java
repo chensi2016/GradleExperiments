@@ -11,9 +11,9 @@ public class WordBreakTest {
 
 
     WordBreak wordbreak = new WordBreak();
-    String s = "pineapplepenapple";
-    List<String> dict = Arrays.asList("apple","pen","applepen","pine","pineapple");
-    List<String> expected = Arrays.asList("cats and dog", "cat sand dog");
+    String s = "catsanddog";
+    List<String> dict = Arrays.asList("cat","cats","and","sand","dog");
+    List<String> expected = Arrays.asList("cat sand dog", "cats and dog");
 
     @Test
     public void wordBreak() {

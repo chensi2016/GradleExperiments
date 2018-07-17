@@ -6,7 +6,6 @@ public class WordBreak {
     List<String> dict;
     List<Integer> wordBorder;
     List<String> result = new ArrayList<>();
-    String word = "";
     String s;
     Integer[] state;
     Integer[] pointerNext;
@@ -16,8 +15,11 @@ public class WordBreak {
         this.wordBorder = new ArrayList<>();
         this.s = s;
         check(s, s.length());
-        this.state = new Integer[s.length()];
-        this.pointerNext = new Integer[s.length()];
+        if (wordBorder.size() == 0) {
+            return null;
+        }
+        this.state = new Integer[wordBorder.size()+1];
+        this.pointerNext = new Integer[wordBorder.size()+1];
 
         searchNext(0,s.length(), 0);
 
@@ -27,35 +29,51 @@ public class WordBreak {
     }
 
     Integer searchNext(int pointer, int sLength, int prev) {
+
+        int old = prev;
         Integer next = null;
         String word = "";
         word = word + s.substring(wordBorder.get(pointer), wordBorder.get(pointer+1));
         pointer++;
-        while ( wordBorder.get(pointer) != sLength ){
+        while (wordBorder.get(pointer) != null) {
+            while (wordBorder.get(pointer) != sLength) {
 
-            if ( wordBorder.get( pointer + 1 ) == 0 )  {
-                if(state[pointer] != null) {
-                    word = word + " " + s.substring(wordBorder.get(pointer), wordBorder.get(pointerNext[pointer]));
-                    pointer = pointerNext[pointer];
+                if (wordBorder.get(pointer + 1) == 0) {
+                    if (state[pointer] != null) {
+                        word = word + " " + s.substring(wordBorder.get(pointer), wordBorder.get(pointerNext[pointer]));
+                        if (wordBorder.get(pointer) == wordBorder.get(old)) {
+                            next = pointerNext[pointer];
+                            pointerNext[old] = next;
+                        }
+                        pointer = pointerNext[pointer];
+
+                        continue;
+                    }
+                    prev = pointer;
+                    pointer++;
+                    int prevsnext = searchNext(pointer, sLength, prev);
+                    word = word + " " + s.substring(wordBorder.get(prev), wordBorder.get(prevsnext));
+                    pointer = prevsnext;
                     continue;
-                }
-                prev = pointer;
-                pointer++;
-                int prevsnext = searchNext(pointer, sLength, prev);
-                word = word + " " + s.substring(wordBorder.get(prev), wordBorder.get(prevsnext));
-                pointer = prevsnext;
-                continue;
 
+                }
+                if (wordBorder.get(pointer) == wordBorder.get(old)) {
+                    next = pointer + 1;
+                    pointerNext[old] = next;
+                }
+                word = word + " " + s.substring(wordBorder.get(pointer), wordBorder.get(pointer + 1));
+                pointer++;
             }
-            if( wordBorder.get( pointer ) ==  wordBorder.get( prev )) {
-                next = pointer + 1;
-                pointerNext[prev] = next;
-            }
-            word = word + " " + s.substring(wordBorder.get(pointer), wordBorder.get(pointer+1));
+            result.add(word);
+            state[prev] = 1;
             pointer++;
-         }
-         result.add(word);
-        state[prev] = 1;
+            if( pointer == wordBorder.size()){
+                return next;
+            }
+            else {
+                searchNext(pointer, sLength, 0);
+            }
+        }
         return next;
     }
     private boolean check(String s, int nthCharOfS) {
@@ -70,7 +88,7 @@ public class WordBreak {
         for (int i = 0; i < dictLength; i++) {
             int tempNthCharOfS = nthCharOfS;
             for (int j = dict.get(i).length()-1; j >= 0; j-- ) {
-                if ( s.charAt(tempNthCharOfS -1) == dict.get(i).charAt(j) ) {
+                if ( tempNthCharOfS>=1 && s.charAt(tempNthCharOfS -1) == dict.get(i).charAt(j) ) {
                     tempNthCharOfS--;
                     if( j == 0 ) {
                         if ( check(s, tempNthCharOfS) == true) {

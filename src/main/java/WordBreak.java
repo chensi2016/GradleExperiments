@@ -55,7 +55,7 @@ class Graph {
         }
         return false;
     }
-    // A function used by DFS
+
     boolean DFS(int node, int preNode, int preRouteNo)
     {
 
@@ -148,7 +148,7 @@ public class WordBreak {
             return true;
         }
         if (state[nthCharOfS] != null && state[nthCharOfS] == -1) {
-            return true;
+            return false;
         }
 
         int dictLength = dict.size();

@@ -20,11 +20,6 @@ class Graph {
         for (int i=0; i<v; ++i) {
             this.adj[i] = new LinkedList();
         }
-
-
-    }
-    Graph(){
-
     }
     void SetRouteNumber(int routeNumber){
         this.route = new LinkedList[routeNumber];
@@ -33,29 +28,12 @@ class Graph {
         }
         this.routeNo = -1;
         return;
-
-    }
-    int factorial(int n){
-        if(n==0){
-            return 1;
-        }
-        return n*factorial(n-1);
-
     }
     //Function to add an edge into the graph
     void addEdge(int v, int w)
     {
         adj[v].add(w);    // Add w to v's list.
     }
-    boolean hasEdge(int v, int w){
-        for ( int i=0; i<adj[v].size(); i++) {
-            if(adj[v].get(i)==w) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     boolean DFS(int node, int preNode, int preRouteNo)
     {
 
@@ -68,18 +46,16 @@ class Graph {
             }
             route[routeNo].add(preNode);
             route[routeNo].add(node);
-            flag = true;
-            return flag;
+            return true;
         }
 
         // Recur for all the vertices adjacent to this vertex
         Iterator<Integer> i = adj[node].listIterator();
-        int indictor = -1;
+        int indicator = -1;
         while (i.hasNext())
-        {   indictor++;
+        {   indicator++;
             if ( preNode != -1 ) {
-
-                if (indictor>=1)
+                if (indicator>=1)
                 {
                     routeNo++;
                     for(int j = 0; j < route[preRouteNo].size(); j++){
@@ -87,7 +63,7 @@ class Graph {
                             route[routeNo].add(route[preRouteNo].get(j));
                             System.out.print(route[preRouteNo].get(j) + " ");
                         }
-                }
+                     }
                 }
 
                 System.out.print(preNode + " ");
@@ -95,7 +71,7 @@ class Graph {
             }
             else{
                 routeNo++;
-        }
+            }
             int nextNode = i.next();
             if(DFS(nextNode,node, routeNo)){
                 flag = true;
@@ -121,7 +97,6 @@ public class WordBreak {
         this.graph = new Graph(s.length());
         check(s, s.length());
         if (wordBorder.size() == 0) {
-            wordBorder.add(0);
             return result;
         }
         int routeNumber=1000;
@@ -134,7 +109,8 @@ public class WordBreak {
             for(int j=0; j<graph.route[i].size()-1; j++) {
                 if(j!=graph.route[i].size()-2){
                     resultWord = resultWord + s.substring(graph.route[i].get(j), graph.route[i].get(j+1)) + " ";
-                    }else{
+                }
+                else{
                     resultWord = resultWord + s.substring(graph.route[i].get(j), graph.route[i].get(j+1));
                     result.add(resultWord);
                 }

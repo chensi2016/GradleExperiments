@@ -8,26 +8,20 @@ class Graph {
      int V;   // No. of vertices
 
     // Array  of lists for Adjacency List Representation
-     LinkedList<Integer> adj[];
-     LinkedList<Integer> route[];
+     ArrayList<Integer> adj[];
+     ArrayList<ArrayList<Integer>> route;
      int routeNo;
 
     // Constructor
     Graph(int v)
     {
         this.V = v;
-        this.adj = new LinkedList[v];
+        this.adj = new ArrayList[v];
         for (int i=0; i<v; ++i) {
-            this.adj[i] = new LinkedList();
+            this.adj[i] = new ArrayList();
         }
-    }
-    void SetRouteNumber(int routeNumber){
-        this.route = new LinkedList[routeNumber];
-        for (int i=0; i<routeNumber; ++i) {
-            this.route[i] = new LinkedList();
-        }
+        this.route = new ArrayList<>();
         this.routeNo = -1;
-        return;
     }
     //Function to add an edge into the graph
     void addEdge(int v, int w)
@@ -43,9 +37,10 @@ class Graph {
             System.out.print(node+" ");
             if(preNode==0){
                 routeNo++;
+                route.add(new ArrayList<>());
             }
-            route[routeNo].add(preNode);
-            route[routeNo].add(node);
+            route.get(routeNo).add(preNode);
+            route.get(routeNo).add(node);
             return true;
         }
 
@@ -58,19 +53,21 @@ class Graph {
                 if (indicator>=1)
                 {
                     routeNo++;
-                    for(int j = 0; j < route[preRouteNo].size(); j++){
-                        if(route[preRouteNo].get(j)<preNode) {
-                            route[routeNo].add(route[preRouteNo].get(j));
-                            System.out.print(route[preRouteNo].get(j) + " ");
+                    route.add(new ArrayList<>());
+                    for(int j = 0; j < route.get(preRouteNo).size(); j++){
+                        if(route.get(preRouteNo).get(j)<preNode) {
+                            route.get(routeNo).add(route.get(preRouteNo).get(j));
+                            System.out.print(route.get(preRouteNo).get(j) + " ");
                         }
                      }
                 }
 
                 System.out.print(preNode + " ");
-                route[routeNo].add(preNode);
+                route.get(routeNo).add(preNode);
             }
             else{
                 routeNo++;
+                route.add(new ArrayList<>());
             }
             int nextNode = i.next();
             if(DFS(nextNode,node, routeNo)){
@@ -99,19 +96,16 @@ public class WordBreak {
         if (wordBorder.size() == 0) {
             return result;
         }
-        int routeNumber=1000;
-
-        graph.SetRouteNumber(routeNumber);
 
         graph.DFS(0,-1,-1);
         for(int i=0; i<=graph.routeNo; i++ ){
             String resultWord = "";
-            for(int j=0; j<graph.route[i].size()-1; j++) {
-                if(j!=graph.route[i].size()-2){
-                    resultWord = resultWord + s.substring(graph.route[i].get(j), graph.route[i].get(j+1)) + " ";
+            for(int j=0; j<graph.route.get(i).size()-1; j++) {
+                if(j!=graph.route.get(i).size()-2){
+                    resultWord = resultWord + s.substring(graph.route.get(i).get(j), graph.route.get(i).get(j+1)) + " ";
                 }
                 else{
-                    resultWord = resultWord + s.substring(graph.route[i].get(j), graph.route[i].get(j+1));
+                    resultWord = resultWord + s.substring(graph.route.get(i).get(j), graph.route.get(i).get(j+1));
                     result.add(resultWord);
                 }
             }
@@ -160,3 +154,4 @@ public class WordBreak {
     }
 
 }
+

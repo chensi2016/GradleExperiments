@@ -1,7 +1,6 @@
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 class Graph {
@@ -28,9 +27,9 @@ class Graph {
     {
         adj[v].add(w);    // Add w to v's list.
     }
-    boolean DFS(int node, int preNode, int preRouteNo)
+    boolean DFS(int node, int preNode, ArrayList<Integer> prePart)
     {
-
+        ArrayList newPrePart = new ArrayList(prePart);
         boolean flag = false;
         if( node == V ){
             System.out.print(preNode+" ");
@@ -44,33 +43,33 @@ class Graph {
             return true;
         }
 
+
         // Recur for all the vertices adjacent to this vertex
         Iterator<Integer> i = adj[node].listIterator();
         int indicator = -1;
         while (i.hasNext())
         {   indicator++;
             if ( preNode != -1 ) {
-                if (indicator>=1)
-                {
-                    routeNo++;
-                    route.add(new ArrayList<>());
-                    for(int j = 0; j < route.get(preRouteNo).size(); j++){
-                        if(route.get(preRouteNo).get(j)<preNode) {
-                            route.get(routeNo).add(route.get(preRouteNo).get(j));
-                            System.out.print(route.get(preRouteNo).get(j) + " ");
-                        }
-                     }
-                }
 
+                if (indicator>=1) {
+                    routeNo++;
+                    route.add(prePart);
+                    for(int j = 0; j < route.get(routeNo).size(); j++){
+                        System.out.print(route.get(routeNo).get(j) + " ");
+                    }
+                }else{
+                    newPrePart.add(preNode);
+                }
                 System.out.print(preNode + " ");
                 route.get(routeNo).add(preNode);
+
             }
             else{
                 routeNo++;
                 route.add(new ArrayList<>());
             }
             int nextNode = i.next();
-            if(DFS(nextNode,node, routeNo)){
+            if(DFS(nextNode,node,newPrePart)){
                 flag = true;
                 }
         }
@@ -97,7 +96,7 @@ public class WordBreak {
             return result;
         }
 
-        graph.DFS(0,-1,-1);
+        graph.DFS(0,-1,new ArrayList<>());
         for(int i=0; i<=graph.routeNo; i++ ){
             String resultWord = "";
             for(int j=0; j<graph.route.get(i).size()-1; j++) {

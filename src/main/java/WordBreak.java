@@ -27,18 +27,16 @@ class Graph {
     {
         adj[v].add(w);    // Add w to v's list.
     }
-    boolean DFS(int node, int preNode, ArrayList<Integer> prePart)
+    boolean DFS(int node, ArrayList<Integer> prePart)
     {
         ArrayList newPrePart = new ArrayList(prePart);
         boolean flag = false;
         if( node == V ){
-            System.out.print(preNode+" ");
             System.out.print(node+" ");
-            if(preNode==0){
+            if(prePart.isEmpty()){
                 routeNo++;
                 route.add(new ArrayList<>());
             }
-            route.get(routeNo).add(preNode);
             route.get(routeNo).add(node);
             return true;
         }
@@ -49,27 +47,41 @@ class Graph {
         int indicator = -1;
         while (i.hasNext())
         {   indicator++;
-            if ( preNode != -1 ) {
+            if ( node != 0 ) {
 
                 if (indicator>=1) {
                     routeNo++;
-                    route.add(prePart);
+                    route.add(new ArrayList<>(prePart));
                     for(int j = 0; j < route.get(routeNo).size(); j++){
                         System.out.print(route.get(routeNo).get(j) + " ");
                     }
                 }else{
-                    newPrePart.add(preNode);
+                    newPrePart.add(node);
                 }
-                System.out.print(preNode + " ");
-                route.get(routeNo).add(preNode);
+                System.out.print(node + " ");
+                route.get(routeNo).add(node);
 
             }
             else{
-                routeNo++;
-                route.add(new ArrayList<>());
+                if (indicator>=1) {
+                    routeNo++;
+                    route.add(new ArrayList<>(prePart));
+                    for(int j = 0; j < route.get(routeNo).size(); j++){
+                        System.out.print(route.get(routeNo).get(j) + " ");
+                    }
+                }else{
+                    routeNo++;
+                    route.add(new ArrayList<>());
+                }
+
+                System.out.print(node + " ");
+                route.get(routeNo).add(node);
+                newPrePart.clear();
+                newPrePart.add(node);
+
             }
             int nextNode = i.next();
-            if(DFS(nextNode,node,newPrePart)){
+            if(DFS(nextNode,newPrePart)){
                 flag = true;
                 }
         }
@@ -96,7 +108,7 @@ public class WordBreak {
             return result;
         }
 
-        graph.DFS(0,-1,new ArrayList<>());
+        graph.DFS(0,new ArrayList<>());
         for(int i=0; i<=graph.routeNo; i++ ){
             String resultWord = "";
             for(int j=0; j<graph.route.get(i).size()-1; j++) {

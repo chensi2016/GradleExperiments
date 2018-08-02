@@ -32,7 +32,6 @@ class Graph {
         ArrayList newPrePart = new ArrayList(prePart);
         boolean flag = false;
         if( node == V ){
-            System.out.print(node+" ");
             if(prePart.isEmpty()){
                 routeNo++;
                 route.add(new ArrayList<>());
@@ -52,13 +51,9 @@ class Graph {
                 if (indicator>=1) {
                     routeNo++;
                     route.add(new ArrayList<>(prePart));
-                    for(int j = 0; j < route.get(routeNo).size(); j++){
-                        System.out.print(route.get(routeNo).get(j) + " ");
-                    }
                 }else{
                     newPrePart.add(node);
                 }
-                System.out.print(node + " ");
                 route.get(routeNo).add(node);
 
             }
@@ -66,15 +61,10 @@ class Graph {
                 if (indicator>=1) {
                     routeNo++;
                     route.add(new ArrayList<>(prePart));
-                    for(int j = 0; j < route.get(routeNo).size(); j++){
-                        System.out.print(route.get(routeNo).get(j) + " ");
-                    }
                 }else{
                     routeNo++;
                     route.add(new ArrayList<>());
                 }
-
-                System.out.print(node + " ");
                 route.get(routeNo).add(node);
                 newPrePart.clear();
                 newPrePart.add(node);

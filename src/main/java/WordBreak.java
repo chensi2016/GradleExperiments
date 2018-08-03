@@ -1,7 +1,5 @@
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 class Graph {
      int V;   // No. of vertices
@@ -9,7 +7,6 @@ class Graph {
     // Array  of lists for Adjacency List Representation
      ArrayList<Integer> adj[];
      ArrayList<ArrayList<Integer>> route;
-     int routeNo;
 
     // Constructor
     Graph(int v)
@@ -20,7 +17,6 @@ class Graph {
             this.adj[i] = new ArrayList();
         }
         this.route = new ArrayList<>();
-        this.routeNo = -1;
     }
     //Function to add an edge into the graph
     void addEdge(int v, int w)
@@ -32,48 +28,24 @@ class Graph {
         ArrayList newPrePart = new ArrayList(prePart);
         boolean flag = false;
         if( node == V ){
-            if(prePart.isEmpty()){
-                routeNo++;
-                route.add(new ArrayList<>());
-            }
-            route.get(routeNo).add(node);
+            newPrePart.add(node);
+            route.add(newPrePart);
             return true;
         }
-
 
         // Recur for all the vertices adjacent to this vertex
         Iterator<Integer> i = adj[node].listIterator();
         int indicator = -1;
-        while (i.hasNext())
-        {   indicator++;
-            if ( node != 0 ) {
-
-                if (indicator>=1) {
-                    routeNo++;
-                    route.add(new ArrayList<>(prePart));
-                }else{
-                    newPrePart.add(node);
-                }
-                route.get(routeNo).add(node);
-
+        while (i.hasNext()) {
+            indicator++;
+            if (indicator>=1) {
+                newPrePart.remove(newPrePart.size()-1);
             }
-            else{
-                if (indicator>=1) {
-                    routeNo++;
-                    route.add(new ArrayList<>(prePart));
-                }else{
-                    routeNo++;
-                    route.add(new ArrayList<>());
-                }
-                route.get(routeNo).add(node);
-                newPrePart.clear();
-                newPrePart.add(node);
-
-            }
+            newPrePart.add(node);
             int nextNode = i.next();
             if(DFS(nextNode,newPrePart)){
                 flag = true;
-                }
+            }
         }
         return flag;
     }
@@ -86,6 +58,7 @@ public class WordBreak {
     String s;
     Integer[] state;
     Graph graph;
+    Set<String> words;
     public List<String> wordBreak(String s, List<String> wordDict) {
 
         this.dict = wordDict;
@@ -93,13 +66,14 @@ public class WordBreak {
         this.s = s;
         this.state = new Integer[s.length()+1];
         this.graph = new Graph(s.length());
+        this.words = new HashSet<>(wordDict);
         check(s, s.length());
         if (wordBorder.size() == 0) {
             return result;
         }
 
         graph.DFS(0,new ArrayList<>());
-        for(int i=0; i<=graph.routeNo; i++ ){
+        for(int i=0; i<graph.route.size(); i++ ){
             String resultWord = "";
             for(int j=0; j<graph.route.get(i).size()-1; j++) {
                 if(j!=graph.route.get(i).size()-2){
@@ -121,35 +95,34 @@ public class WordBreak {
         if (state[nthCharOfS] != null && state[nthCharOfS] == -1) {
             return false;
         }
-
-        int dictLength = dict.size();
-
         if (nthCharOfS == 0) {
             state[0] = 1;
             return true;
         }
         boolean flag = false;
-        for (int i = 0; i < dictLength; i++) {
-            int tempNthCharOfS = nthCharOfS;
-            for (int j = dict.get(i).length() - 1; j >= 0; j--) {
-                if (tempNthCharOfS >= 1 && s.charAt(tempNthCharOfS - 1) == dict.get(i).charAt(j)) {
-                    tempNthCharOfS--;
-                    if (j == 0) {
-                        if (check(s, tempNthCharOfS) == true) {
-                            state[nthCharOfS] = 1;
-                            wordBorder.add(nthCharOfS);
-                            graph.addEdge(tempNthCharOfS, nthCharOfS);
-                            flag = true;
-                        }
-                        else{
-                            state[tempNthCharOfS] = -1;
-                        }
-                    }
+        for (String word: words) {
+            int tempNthCharOfS;
+            if (nthCharOfS >= word.length()) {
+                tempNthCharOfS = nthCharOfS - word.length();
+            } else {
+                continue;
+            }
+            if (word.equals(s.substring(tempNthCharOfS, nthCharOfS))) {
+                if (check(s, tempNthCharOfS)) {
+                    state[nthCharOfS] = 1;
+                    wordBorder.add(nthCharOfS);
+                    graph.addEdge(tempNthCharOfS, nthCharOfS);
+                    flag = true;
 
                 } else {
-                    break;
+                    state[tempNthCharOfS] = -1;
                 }
             }
+        }
+        if (flag) {
+            state[nthCharOfS] = 1;
+        } else {
+            state[nthCharOfS] = -1;
         }
         return flag;
     }

@@ -52,7 +52,6 @@ class Graph {
 }
 
 public class WordBreak {
-    List<String> dict;
     List<Integer> wordBorder;
     List<String> result = new ArrayList<>();
     String s;
@@ -60,8 +59,6 @@ public class WordBreak {
     Graph graph;
     Set<String> words;
     public List<String> wordBreak(String s, List<String> wordDict) {
-
-        this.dict = wordDict;
         this.wordBorder = new ArrayList<>();
         this.s = s;
         this.state = new Integer[s.length()+1];

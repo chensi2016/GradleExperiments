@@ -1,60 +1,45 @@
-
-import java.util.ArrayList;
-
 public class NumberofIslands {
     char[][] grid;
-    ArrayList<ArrayList<Integer>> islands;
+    int length;
+    int[] islands;
+    int numberofIslands;
+    int numberofConnected;
 
     public int numIslands(char[][] grid) {
-        islands = new ArrayList<>();
+        //islands = new ArrayList<>();
         this.grid = grid;
+        if (grid.length == 0) {
+            return 0;
+        }
+        this.length = grid.length*grid[0].length;
+        islands = new int[length];
         for ( int i = 0; i < grid.length; i++ ) {
             for ( int j = 0; j < grid[i].length; j++ ) {
                 int nodeIndex = i*grid[0].length + j;
                 if ( grid[i][j] == '1' ) {
                     if (nearIsland(nodeIndex) == null ){
-                        ArrayList island = new ArrayList();
-                        island.add(nodeIndex);
-                        islands.add(island);
+                        numberofIslands++;
+                        islands[nodeIndex] = numberofIslands;
                     } else {
-                        islands.get(nearIsland(nodeIndex)).add(nodeIndex);
+                        islands[nodeIndex] = nearIsland(nodeIndex);
                         update(nodeIndex);
 
                     }
                 } else {
                     continue;
-
                 }
             }
 
         }
-        return islands.size();
+        return numberofIslands - numberofConnected;
 
-    }
-    Integer insideIslands(int nodeIndex) {
-        for ( int i = 0; i< islands.size(); i++)
-        {
-            for ( int j=0; j<islands.get(i).size(); j++)
-                if ( nodeIndex != islands.get(i).get(j)) {
-                continue;
-                } else {
-                return i;
-                }
-        }
-        return null;
     }
     Integer nearIsland(int nodeIndex) {
         int[] nearbyNode = getNearby(nodeIndex);
 
-        if (nodeIndex / grid[0].length != grid.length -1 ) {
-            nearbyNode[3] = nodeIndex + grid.length;
-        }else {
-            nearbyNode[3] = nodeIndex;
-        }
-
         for ( int i = 0 ; i < 4 ;i++ ) {
-            if ( insideIslands(nearbyNode[i]) != null ) {
-            return insideIslands(nearbyNode[i]);
+            if ( islands[nearbyNode[i]] != 0 ) {
+            return islands[nearbyNode[i]];
             } else {
                 continue;
             }
@@ -84,7 +69,7 @@ public class NumberofIslands {
         }
 
         if (nodeIndex / grid[0].length != grid.length -1 ) {
-            nearbyNode[3] = nodeIndex + grid.length;
+            nearbyNode[3] = nodeIndex + grid[0].length;
         }else {
             nearbyNode[3] = nodeIndex;
         }
@@ -93,18 +78,18 @@ public class NumberofIslands {
     void update(int nodeIndex) {
         int[] nearbyNode = getNearby(nodeIndex);
         for( int i = 0 ; i < 4 ;i++ ) {
-            if ( insideIslands(nearbyNode[i]) != null) {
-                if (insideIslands(nodeIndex) != insideIslands(nearbyNode[i])) {
-                    int oldIslandIndex = insideIslands(nearbyNode[i]);
-                    islands.get(insideIslands(nodeIndex)).addAll(islands.get(oldIslandIndex));
-                    islands.remove(oldIslandIndex);
-
-
+            if ( islands[nearbyNode[i]] != 0) {
+                if (islands[nodeIndex] != islands[nearbyNode[i]] ){
+                    numberofConnected++;
+                    int newIslandIndex = islands[nodeIndex] < islands[nearbyNode[i]]? islands[nodeIndex]:islands[nearbyNode[i]];
+                    int oldIslandIndex = islands[nodeIndex] < islands[nearbyNode[i]]? islands[nearbyNode[i]]:islands[nodeIndex];
+                    for (int j = 0; j < length; j++) {
+                        if (islands[j] == oldIslandIndex) {
+                            islands[j] = newIslandIndex;
+                        }
+                    }
                 }
             }
         }
-
-
-
     }
 }

@@ -7,8 +7,6 @@ class Graph {
     // Array  of lists for Adjacency List Representation
      ArrayList<Integer> adj[];
      ArrayList<ArrayList<Integer>> route;
-
-    // Constructor
     Graph(int v)
     {
         this.V = v;
@@ -21,33 +19,21 @@ class Graph {
     //Function to add an edge into the graph
     void addEdge(int v, int w)
     {
+
         adj[v].add(w);    // Add w to v's list.
     }
-    boolean DFS(int node, ArrayList<Integer> prePart)
+    void DFS(int node, ArrayList<Integer> prePart)
     {
         ArrayList newPrePart = new ArrayList(prePart);
-        boolean flag = false;
         if( node == V ){
-            newPrePart.add(node);
-            route.add(newPrePart);
-            return true;
+            route.add(new ArrayList<>(prePart));
+            return;
         }
-
-        // Recur for all the vertices adjacent to this vertex
-        Iterator<Integer> i = adj[node].listIterator();
-        int indicator = -1;
-        while (i.hasNext()) {
-            indicator++;
-            if (indicator>=1) {
-                newPrePart.remove(newPrePart.size()-1);
-            }
-            newPrePart.add(node);
-            int nextNode = i.next();
-            if(DFS(nextNode,newPrePart)){
-                flag = true;
-            }
+        for (int nextNode : adj[node]){
+            newPrePart.add(nextNode);
+            DFS(nextNode,newPrePart);
+            newPrePart.remove(newPrePart.size()-1);
         }
-        return flag;
     }
 }
 
@@ -68,8 +54,9 @@ public class WordBreak {
         if (wordBorder.size() == 0) {
             return result;
         }
-
-        graph.DFS(0,new ArrayList<>());
+        ArrayList<Integer> prePart = new ArrayList<>();
+        prePart.add(0);
+        graph.DFS(0,prePart);
         for(int i=0; i<graph.route.size(); i++ ){
             String resultWord = "";
             for(int j=0; j<graph.route.get(i).size()-1; j++) {
@@ -106,13 +93,9 @@ public class WordBreak {
             }
             if (word.equals(s.substring(tempNthCharOfS, nthCharOfS))) {
                 if (check(s, tempNthCharOfS)) {
-                    state[nthCharOfS] = 1;
                     wordBorder.add(nthCharOfS);
                     graph.addEdge(tempNthCharOfS, nthCharOfS);
                     flag = true;
-
-                } else {
-                    state[tempNthCharOfS] = -1;
                 }
             }
         }

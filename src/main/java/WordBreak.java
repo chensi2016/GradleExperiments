@@ -72,18 +72,18 @@ public class WordBreak {
         return result;
     }
 
-    private boolean check(String s, int nthCharOfS) {
+    private void check(String s, int nthCharOfS) {
         if (state[nthCharOfS] != null && state[nthCharOfS] == 1) {
-            return true;
+            return;
         }
         if (state[nthCharOfS] != null && state[nthCharOfS] == -1) {
-            return false;
+            return;
         }
         if (nthCharOfS == 0) {
             state[0] = 1;
-            return true;
+            return;
         }
-        boolean flag = false;
+        state[nthCharOfS] = -1;
         for (String word: words) {
             int tempNthCharOfS;
             if (nthCharOfS >= word.length()) {
@@ -92,19 +92,13 @@ public class WordBreak {
                 continue;
             }
             if (word.equals(s.substring(tempNthCharOfS, nthCharOfS))) {
-                if (check(s, tempNthCharOfS)) {
-                    wordBorder.add(nthCharOfS);
-                    graph.addEdge(tempNthCharOfS, nthCharOfS);
-                    flag = true;
-                }
+                check(s, tempNthCharOfS);
+                wordBorder.add(nthCharOfS);
+                graph.addEdge(tempNthCharOfS, nthCharOfS);
+                state[nthCharOfS] = 1;
             }
         }
-        if (flag) {
-            state[nthCharOfS] = 1;
-        } else {
-            state[nthCharOfS] = -1;
-        }
-        return flag;
+        return;
     }
 
 }

@@ -41,12 +41,9 @@ public class Trie {
                 TrieNode newNode = new TrieNode( currentChar, currentNode);
                 currentNode = newNode;
             }
-
-            if ( pointer == word.length() -1){
-                currentNode.isEnd = true;
-            }
-                pointer++;
+            pointer++;
         }
+        currentNode.isEnd = true;
 
     }
 
@@ -69,17 +66,9 @@ public class Trie {
             if ( ! isUpdated ) {
                 return false;
             }
-
-            if ( pointer == word.length() -1){
-                if( currentNode.isEnd == true ) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
             pointer++;
         }
-    return false;
+        return currentNode.isEnd;
 
     }
 
@@ -102,13 +91,9 @@ public class Trie {
             if ( ! isUpdated ) {
                 return false;
             }
-
-            if ( pointer == prefix.length() -1){
-                    return true;
-            }
             pointer++;
         }
-        return false;
+        return true;
 
     }
 }

@@ -23,7 +23,7 @@ public class MergeIntervals {
         if ( intervals.size() <= 1 ) {
             return intervals;
         }
-        mergesort(intervals);
+        intervals = mergesort(intervals);
         Interval currentInterval;
         Interval nextInterval;
         int firstPointer = 0;
@@ -68,7 +68,7 @@ public class MergeIntervals {
                     for ( int j = searchFrom; j < sortedLeft.size(); j++ ){
                         if (sortedRight.get(i).start < sortedLeft.get(j).start ) {
                             sortedLeft.add(j, sortedRight.get(i));
-                            searchFrom = j;
+                            searchFrom = j + 1;
                             break;
                         }
                     }

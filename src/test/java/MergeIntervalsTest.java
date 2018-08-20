@@ -11,7 +11,7 @@ public class MergeIntervalsTest {
 
 
     @Test
-    public void mergesort() {
+    public void merge() {
         List<Interval> inputList = new ArrayList<Interval>(5);
         inputList.add(new Interval(2,3));
         inputList.add(new Interval(4,5));
@@ -20,10 +20,11 @@ public class MergeIntervalsTest {
         inputList.add(new Interval(1,10));
 
         List<Interval> ExpectedList = new ArrayList<Interval>(1);
-        List<Interval> OutputList = mergeIntervals.merge(mergeIntervals.mergesort(inputList));
+        List<Interval> OutputList = mergeIntervals.merge(inputList);
         ExpectedList.add(new Interval(1,10));
         assertEquals(OutputList.size(), ExpectedList.size());
         return;
 
     }
+
 }

@@ -26,12 +26,12 @@ public class SearchRotatedSortedArray {
                         step = 1;
                     }
                     if ( nums[pointer] < nums[nextPointer] ) {
-                        if ( target < nums[pointer] || target > nums[nextPointer]) {
-                            pointer = nextPointer;
-                            nextPointer = nextPointer + step;
-                        } else {
+                        if ( target > nums[pointer] && target < nums[nextPointer]) {
                             pointer = nextPointer;
                             nextPointer = nextPointer - step;
+                        } else {
+                            pointer = nextPointer;
+                            nextPointer = nextPointer + step;
                         }
 
                     }  else {

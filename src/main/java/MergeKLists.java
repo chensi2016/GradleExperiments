@@ -1,22 +1,24 @@
-class ListNode {
+class ListNodeForMergeKLists {
     int val;
-    ListNode next;
-    ListNode(int x) {
+    ListNodeForMergeKLists next;
+    ListNodeForMergeKLists(int x) {
         val = x;
     }
-    ListNode(){
+    ListNodeForMergeKLists(){
 
     }
  }
 
 public  class MergeKLists {
-    public ListNode mergeKLists(ListNode[] lists) {
+    public ListNodeForMergeKLists mergeKLists(ListNodeForMergeKLists[] lists) {
         int listsLength = lists.length;
-        ListNode mergedList = new ListNode();
+        ListNodeForMergeKLists mergedList = new ListNodeForMergeKLists();
+        ListNodeForMergeKLists index = mergedList;
         int count = 0;
-        int currentSmallest;
-        int lineNumberofCurrentSmallest;
+        int currentSmallest = 0;
+        int lineNumberofCurrentSmallest = 0;
         do {
+            count = 0;
             for (int i = 0; i < listsLength; i++) {
                 if( lists[i] == null ) {
                     continue;
@@ -33,11 +35,15 @@ public  class MergeKLists {
                     }
                 }
             }
-            mergedList.next = new ListNode(currentSmallest);
+            if ( count == 0 ) {
+                break;
+            }
+            index.next = new ListNodeForMergeKLists(currentSmallest);
             lists[lineNumberofCurrentSmallest] = lists[lineNumberofCurrentSmallest].next;
+            index = index.next;
         } while ( count!=0 );
 
-
+     return mergedList.next;
     }
 
 }

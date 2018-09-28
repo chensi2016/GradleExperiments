@@ -54,7 +54,7 @@ public class MergeKListsByHeap {
 
     }
     void buildMinHeap ( int[] array, int number) {
-        for (int i = number - 1; i>=0; i--) {
+        for (int i = number / 2 - 1; i>=0; i--) {
             minHeapify(array, i, number);
         }
     }
@@ -67,3 +67,5 @@ public class MergeKListsByHeap {
     }
 
 }
+
+

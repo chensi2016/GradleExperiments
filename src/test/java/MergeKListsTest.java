@@ -1,11 +1,12 @@
 import mergeKListsPackage.MergeKLists;
 import mergeKListsPackage.MergeKListsByHeap;
+import mergeKListsPackage.MergeKListsByPriorityQueue;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 
 public class MergeKListsTest {
-    MergeKListsByHeap mergeKLists = new MergeKListsByHeap();
+    MergeKListsByPriorityQueue mergeKLists = new MergeKListsByPriorityQueue();
 
     @Test
     public void mergeKLists() {

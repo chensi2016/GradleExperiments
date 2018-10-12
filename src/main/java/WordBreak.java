@@ -1,13 +1,12 @@
 
 import java.util.*;
-
-class Graph {
+public class Graph {
      int V;   // No. of vertices
 
     // Array  of lists for Adjacency List Representation
      ArrayList<Integer> adj[];
      ArrayList<ArrayList<Integer>> route;
-    Graph(int v)
+    public Graph(int v)
     {
         this.V = v;
         this.adj = new ArrayList[v];
@@ -17,12 +16,12 @@ class Graph {
         this.route = new ArrayList<>();
     }
     //Function to add an edge into the graph
-    void addEdge(int v, int w)
+    public void addEdge(int v, int w)
     {
 
         adj[v].add(w);    // Add w to v's list.
     }
-    void DFS(int node, ArrayList<Integer> prePart)
+    public void DFS(int node, ArrayList<Integer> prePart)
     {
         ArrayList newPrePart = new ArrayList(prePart);
         if( node == V ){

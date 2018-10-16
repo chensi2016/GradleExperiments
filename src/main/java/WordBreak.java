@@ -1,6 +1,6 @@
 
 import java.util.*;
-public class Graph {
+class Graph {
      int V;   // No. of vertices
 
     // Array  of lists for Adjacency List Representation

@@ -17,7 +17,8 @@ public class LetterCombinations {
         return result;
     }
     void DFS(String digits, int index, String previous) {
-        String newPrevious = new String(previous);
+        //String newPrevious = new String(previous);
+        String newPrevious = previous;
         if( index == digits.length() -1 ) {
             result.add(newPrevious);
             return;
@@ -27,8 +28,6 @@ public class LetterCombinations {
             newPrevious += letterMap.get(nextNumber).charAt(i);
             DFS(digits, index + 1, newPrevious);
             newPrevious = newPrevious.substring(0, newPrevious.length()-1);
-
         }
     }
-
 }

@@ -20,14 +20,14 @@ public class GenerateParenthesis {
             String newPre = pre +')';
             DFS(left, right + 1, n, newPre);
         }
-        if( left >right && left <= n - 1 && right <= n - 1) {
+        if( left >right ) {
             String newPre = pre + '(';
             DFS(left + 1, right, n, newPre);
             newPre = pre +')';
             DFS(left, right + 1, n, newPre);
 
         } else {
-            if (left == right && left <= n - 1) {
+            if (left == right ) {
                 String newPre = pre + '(';
                 DFS(left + 1, right, n, newPre);
             }

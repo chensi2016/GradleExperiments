@@ -16,7 +16,7 @@ public class GenerateParenthesis {
             result.add(pre);
             return;
         }
-        if ( left == n && right <= n-1 ) {
+        if ( left == n ) {
             String newPre = pre +')';
             DFS(left, right + 1, n, newPre);
         }

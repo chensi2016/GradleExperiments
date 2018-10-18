@@ -22,10 +22,12 @@ public class WordSearch {
         if ( wordIndex == word.length() -1 && board[rowIndex][columnIndex] == word.charAt(wordIndex)) {
             return true;
         }
+        if(wordIndex == 0 ){
+            checked[rowIndex][columnIndex] = true;
+        }
 
         int[][] location = {{-1,0},{1,0},{0,-1},{0,1}};
         if (board[rowIndex][columnIndex] == word.charAt(wordIndex)) {
-            checked[rowIndex][columnIndex] = true;
             for (int i = 0; i < location.length; i++) {
                 int newRowIndex = rowIndex + location[i][0];
                 int newColumnIndex = columnIndex + location[i][1];

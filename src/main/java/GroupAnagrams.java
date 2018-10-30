@@ -2,32 +2,22 @@ import java.util.*;
 
 public class GroupAnagrams {
     public List<List<String>> groupAnagrams(String[] strs) {
-        Set<String> hash_set = new HashSet<>();
-        char[][] charArrays = new char[strs.length][];
+        if ( strs == null || strs.length ==0 ) {
+            return new ArrayList<>();
+        }
+        Map<String, List<String>> hash_map = new HashMap<>();
         for ( int i = 0; i < strs.length; i++ ) {
-            charArrays[i] = strs[i].toCharArray();
-            Arrays.sort(charArrays[i]);
-            hash_set.add(new String(charArrays[i]));
-        }
-
-        List<List<String>> result = new ArrayList<>(hash_set.size());
-        for (int i = 0; i < hash_set.size(); i++) {
-            List<String> stringList = new ArrayList<>();
-            result.add(stringList);
-        }
-
-        for (int i = 0; i < strs.length; i++) {
-            Iterator<String> iterator = hash_set.iterator();
-            int count = 0;
-            while ( iterator.hasNext() ) {
-                String sortedString = new String(charArrays[i]);
-                if( sortedString.equals(iterator.next()) ){
-                    result.get(count).add(strs[i]);
-                }
-                count++;
+            char[]charArray = strs[i].toCharArray();
+            Arrays.sort(charArray);
+            String sortedString = new String(charArray);
+            if (hash_map.containsKey(sortedString)) {
+                hash_map.get(sortedString).add(strs[i]);
+            } else {
+                List<String> valueList = new ArrayList<>();
+                valueList.add(strs[i]);
+                hash_map.put(sortedString, valueList);
             }
-
         }
-        return result;
+        return new ArrayList<>(hash_map.values());
     }
 }

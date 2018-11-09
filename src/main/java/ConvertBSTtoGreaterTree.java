@@ -5,17 +5,14 @@ public class ConvertBSTtoGreaterTree {
             TreeNode convert(TreeNode root, int plus) {
                 if ( root == null )
                     return null;
-                int newPlus;
                 if ( root.right != null) {
                     root.val = root.val + getSum(root.right) + plus;
                     convert(root.right, plus);
-
                 } else {
                     root.val = root.val + plus;
                 }
                 if ( root.left != null) {
-                    newPlus = root.val;
-                    convert(root.left, newPlus);
+                    convert(root.left, root.val);
                 }
                 return root;
 

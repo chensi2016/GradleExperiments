@@ -23,7 +23,7 @@ public class LowestCommonAncestor {
         } else {
             if (lookforX(node.left, x) ) {
                 return true;
-            } if ( lookforX(node.right, x) ) {
+            } if (lookforX(node.right, x) ) {
                 return true;
             }
         }

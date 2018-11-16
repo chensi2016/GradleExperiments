@@ -3,23 +3,16 @@ public class LowestCommonAncestorRewrite {
         if(root == null){
             return null;
         }
+        if( root.val == p.val || root.val == q.val ) {
+            return root;
+        }
         TreeNode right = lowestCommonAncestor(root.right,p,q);
         TreeNode left = lowestCommonAncestor(root.left,p,q);
         if((right != null && left != null) ) {
             return root;
         }
-        if((right != null || left != null ) && (root.val == p.val || root.val == q.val ))
-        {
-            return root;
-        }
-        if(right != null || left != null ) {
-            return right == null ? left :right;
-        }
-        if( root.val == p.val || root.val == q.val ) {
-            return root;
-        } else {
-            return null;
-        }
+        return right == null ? left :right;
+
     }
 
 }

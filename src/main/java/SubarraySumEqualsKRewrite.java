@@ -1,47 +1,41 @@
+import java.util.HashMap;
+import java.util.Map;
+class endAndNumber{
+    int end;
+    int number;
+    endAndNumber(int end, int number) {
+        this.end = end;
+        this.number = number;
+    }
+}
 public class SubarraySumEqualsKRewrite {
-    //int[][] checkResult;
+    Map<endAndNumber, Integer> map = new HashMap<>();
 
     public int subarraySum( int[] nums, int k ) {
-       // checkResult = new int[nums.length][k];
         int result = 0;
-        if(nums[0] == k)
-            result++;
-        for ( int i = 1; i < nums.length; i++ ) {
-            if ( check( nums, i-1, k-nums[i]) ) {
-                result++;
-            }
+        for ( int i = 0; i < nums.length; i++ ) {
+            result = result + check( nums, i, k) ;
         }
         return result;
     }
-    boolean check(int[] nums, int end, int number) {
-       /* if(checkResult[end][number] == 1) {
-            return true;
+    int check(int[] nums, int end, int number) {
+        endAndNumber pair = new endAndNumber(end, number);
+        if ( map.containsKey( pair ) ) {
+            return map.get( pair );
         }
-        if( checkResult[end][number] == -1) {
-            return false;
-        }*/
-        if(number == 0) {
-           // checkResult[end][number] = 1;
-            return true;
-        }
-        if(end == 0) {
-            if (nums[end] == number) {
-               // checkResult[end][number] = 1;
-                return true;
-            }else {
-              //  checkResult[end][number] = -1;
-                return false;
+       int result = 0;
+       if ( end == 0) {
+           if ( nums[end] == number ) {
+               result++;
+           }
+       } else{
+        if ( nums[end] == number ) {
+           result = check(nums, end - 1, number - nums[end]) + 1 ;
+        } else {
+           result = check(nums, end - 1, number - nums[end]);
             }
-
-        }
-
-        if ( end >= 1 && check(nums, end-1, number-nums[end]) ) {
-            //checkResult[end][number] = 1;
-            return true;
-        }else {
-           // checkResult[end][number] = -1;
-            return false;
-        }
-
+       }
+       map.put( pair, result);
+       return result;
     }
 }

@@ -1,11 +1,25 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
 class endAndNumber{
     int end;
     int number;
     endAndNumber(int end, int number) {
         this.end = end;
         this.number = number;
+    }
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof endAndNumber)) {
+            return false;
+        }
+        endAndNumber eAN = (endAndNumber) o;
+        return end == eAN.end && number == eAN.number;
+
+    }
+    public int hashCode() {
+        return Objects.hash( end, number );
     }
 }
 public class SubarraySumEqualsKRewrite {
@@ -24,17 +38,14 @@ public class SubarraySumEqualsKRewrite {
             return map.get( pair );
         }
        int result = 0;
-       if ( end == 0) {
-           if ( nums[end] == number ) {
-               result++;
-           }
-       } else{
+        if( end == -1 ) {
+            return result;
+        }
         if ( nums[end] == number ) {
            result = check(nums, end - 1, number - nums[end]) + 1 ;
         } else {
            result = check(nums, end - 1, number - nums[end]);
-            }
-       }
+        }
        map.put( pair, result);
        return result;
     }

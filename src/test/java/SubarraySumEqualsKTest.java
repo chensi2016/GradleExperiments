@@ -4,11 +4,11 @@ import static org.junit.Assert.*;
 
 public class SubarraySumEqualsKTest {
     SubarraySumEqualsKRewrite test = new SubarraySumEqualsKRewrite();
-    int[] nums = {0,0,0,0,0,0,0,0,0,0};
+    int[] nums = {1,1,1};
 
     @Test
     public void subarraySum() {
-        assertEquals(55, test.subarraySum(nums,0));
+        assertEquals(2, test.subarraySum(nums,2));
 
     }
 }

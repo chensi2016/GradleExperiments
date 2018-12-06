@@ -2,45 +2,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UniqueBinarySearchTrees {
-
     public List<TreeNode> generateTrees(int n) {
+        return generateTreesHelper(n,0);
+    }
+
+    public List<TreeNode> generateTreesHelper(int n, int plus) {
         List<TreeNode> treeNodeList = new ArrayList<>();
-        if( n <= 0 ){
+        if ( n == 1 ) {
+            TreeNode node = new TreeNode(n + plus);
+            treeNodeList.add(node);
             return treeNodeList;
         }
-        TreeNode firstTreeNode = new TreeNode(1);
-        treeNodeList.add(firstTreeNode);
-        List<TreeNode> endNodeList;
-        for( int i = 2; i <= n ; i++ ) {
-            TreeNode newTreeNode = new TreeNode(i);
-            for (TreeNode treeNode: treeNodeList) {
-               treeNodeList = dfs(treeNode, newTreeNode, treeNodeList);
+        if ( n > 1 ) {
+            for (TreeNode rightNode : generateTreesHelper(n-1,plus) ) {
+                TreeNode headNode = new TreeNode(n + plus);
+                headNode.right = rightNode;
+                treeNodeList.add(headNode);
+            }
+            for ( int i = 1; i <= n-2; i++ ) {
+                for ( TreeNode leftNode : generateTreesHelper(i, plus)) {
+                    for ( TreeNode rightNode : generateTreesHelper(n-1-i, plus + i) ) {
+                        TreeNode headNode = new TreeNode(n + plus);
+                        headNode.left = leftNode;
+                        headNode.right = rightNode;
+                        treeNodeList.add(headNode);
+                    }
+                }
+            }
+            for (TreeNode leftNode : generateTreesHelper(n-1,plus) ) {
+                TreeNode headNode = new TreeNode(n + plus);
+                headNode.left = leftNode;
+                treeNodeList.add(headNode);
             }
         }
         return treeNodeList;
     }
-    List<TreeNode> dfs(TreeNode headNode, TreeNode newNode, List<TreeNode> treeNodesList) {
-        TreeNode indexNode = headNode;
-        TreeNode newHeadNode = new TreeNode(headNode.val);
-        if( indexNode.left != null ) {
-            TreeNode newLeftNode = new TreeNode(indexNode.left.val);
-            newHeadNode.left = newLeftNode;
-            dfs(indexNode.left, newNode,treeNodesList);
-        } else {
-            newHeadNode.left = newNode;
-        }
-        if ( indexNode.right != null ) {
-            TreeNode newRightNode = new TreeNode(indexNode.right.val);
-            newHeadNode.right = newRightNode;
-            dfs(indexNode.right, newNode,treeNodesList);
-        } else{
-            newHeadNode.right = newNode;
-        }
 
-        return treeNodesList;
-    }
 
-    TreeNode copyATree(TreeNode headNode) {
-        
-    }
 }
